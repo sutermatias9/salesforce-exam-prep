@@ -16,12 +16,4 @@ public with sharing class ExamCalloutHandler {
             throw new AuraHandledException('Failed to fetch available exams: ' + response.getStatus());
         }
     }
-
-    public with sharing class ExamWrapper {
-        public String name;
-        public String URI;
-        public Integer Number_of_Questions;
-        public Integer Passing_Score;
-        public Integer Time_to_Complete_minutes;
-    }
 }
