@@ -1,0 +1,10 @@
+<template>
+    <lightning-card title="Exam details">
+        <div>{exam.name}</div>
+        <div>Content: {exam.Number_of_Questions} multiple-choice/multiple-select questions</div>
+        <div>Time alloted to complete the exam: {exam.Time_to_Complete_minutes}</div>
+        <div>Passing score: {exam.Passing_Score}%</div>
+        <lightning-button label="Back" onclick={handleBackClick}></lightning-button>
+        <lightning-button variant="brand" label="Start exam" onclick={handleStartClick}></lightning-button>
+    </lightning-card>
+</template>
