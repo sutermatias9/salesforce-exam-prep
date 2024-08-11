@@ -3,6 +3,11 @@ import getAvailableExams from '@salesforce/apex/ExamCalloutHandler.getAvailableE
 
 export default class CertificationPrep extends LightningElement {
     exams;
+    examSelected = null;
+
+    get showSelector() {
+        return !this.examSelected;
+    }
 
     @wire(getAvailableExams)
     wiredExams({ data, error }) {
@@ -16,6 +21,10 @@ export default class CertificationPrep extends LightningElement {
     }
 
     handleExamSelect(event) {
-        console.log('Exam selected: ' + event.detail);
+        this.examSelected = this.exams.find((exam) => exam.name === event.detail);
+    }
+
+    handleBack() {
+        this.examSelected = null;
     }
 }

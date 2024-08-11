@@ -1,9 +1,14 @@
 <template>
     <div class="slds-grid slds-align_absolute-center">
         <div class="slds-col slds-size_6-of-12">
-            <lightning-card title="Select an exam">
-                <c-exam-selector exams={exams} onselect={handleExamSelect}></c-exam-selector>
-            </lightning-card>
+            <template lwc:if={showSelector}>
+                <lightning-card title="Select an exam">
+                    <c-exam-selector exams={exams} onselect={handleExamSelect}></c-exam-selector>
+                </lightning-card>
+            </template>
+            <template lwc:else>
+                <c-exam-details exam={examSelected} onback={handleBack}></c-exam-details>
+            </template>
         </div>
     </div>
 </template>
