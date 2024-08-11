@@ -4,10 +4,15 @@ export default class ExamDetails extends LightningElement {
     @api exam;
 
     handleBackClick() {
-        this.fireEvent('back', null);
+        this.fireEvent('back');
     }
 
-    fireEvent(name, detail) {
-        this.dispatchEvent(new CustomEvent(name, { detail }));
+    handleStartClick() {
+        this.fireEvent('start');
+    }
+
+    fireEvent(name) {
+        const event = new CustomEvent(name);
+        this.dispatchEvent(event);
     }
 }
