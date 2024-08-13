@@ -1,0 +1,16 @@
+<template>
+    <lightning-card title="Exam">
+        <div class="slds-var-p-around_medium">
+            <div class="slds-grid slds-wrap slds-gutters_xxx-small">
+                <template iterator:question={examQuestions}>
+                    <div key={question.value.Question_text} class="slds-col">
+                        <div class=" slds-box slds-align_absolute-center slds-var-m-bottom_x-small question-number"
+                            onclick={handleNumberClick}>
+                            {question.value.index}
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </lightning-card>
+</template>
