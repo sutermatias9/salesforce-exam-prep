@@ -1,9 +1,12 @@
 import { LightningElement, wire } from 'lwc';
 import getAvailableExams from '@salesforce/apex/ExamCalloutHandler.getAvailableExams';
+import getExamQuestions from '@salesforce/apex/ExamCalloutHandler.getExamQuestions';
 
 export default class CertificationPrep extends LightningElement {
     exams;
     examSelected = null;
+    showExam = false;
+    questions;
 
     get showSelector() {
         return !this.examSelected;
@@ -26,5 +29,15 @@ export default class CertificationPrep extends LightningElement {
 
     handleBack() {
         this.examSelected = null;
+    }
+
+    async handleStartExam() {
+        this.showExam = true;
+
+        try {
+            this.questions = await getExamQuestions({ examURI: this.examSelected.URI });
+        } catch (error) {
+            console.log('error start exam' + error);
+        }
     }
 }

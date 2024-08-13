@@ -7,7 +7,12 @@
                 </lightning-card>
             </template>
             <template lwc:else>
-                <c-exam-details exam={examSelected} onback={handleBack}></c-exam-details>
+                <template lwc:if={showExam}>
+                    <c-mock-exam questions={questions}></c-mock-exam>
+                </template>
+                <template lwc:else>
+                    <c-exam-details exam={examSelected} onstart={handleStartExam} onback={handleBack}></c-exam-details>
+                </template>
             </template>
         </div>
     </div>
