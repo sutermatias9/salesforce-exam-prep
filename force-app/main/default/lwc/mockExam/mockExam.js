@@ -4,14 +4,25 @@ export default class MockExam extends LightningElement {
     @api questions;
     questionSelected;
 
+    _examQuestions;
+    isInitialized;
+
     get examQuestions() {
-        if (this.questions) {
-            return this.questions.map((question, index) => {
-                return { index: index + 1, ...question };
+        if (this.questions && !this.isInitialized) {
+            this.isInitialized = true;
+
+            this._examQuestions = this.questions.map((question, index) => {
+                return {
+                    index: index + 1,
+                    userAnswers: { Option_A: false, Option_B: false, Option_C: false, Option_D: false, Option_E: false },
+                    ...question
+                };
             });
+
+            this.questionSelected = this._examQuestions[0];
         }
 
-        return null;
+        return this._examQuestions;
     }
 
     handleNumberClick(event) {
