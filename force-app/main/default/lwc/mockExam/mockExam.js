@@ -1,11 +1,11 @@
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 
 export default class MockExam extends LightningElement {
     @api questions;
-    questionSelected;
+    @track questionSelected;
 
     _examQuestions;
-    isInitialized;
+    isInitialized = false;
 
     get examQuestions() {
         if (this.questions && !this.isInitialized) {
@@ -29,6 +29,13 @@ export default class MockExam extends LightningElement {
         const questionIndex = Number(event.currentTarget.textContent);
 
         this.questionSelected = this.examQuestions.find((q) => q.index === questionIndex);
-        console.log(JSON.stringify(this.questionSelected));
+        console.log('Question selected' + JSON.stringify(this.questionSelected));
+    }
+
+    handleOptionChange(event) {
+        const optionChanged = event.currentTarget.value;
+        const isChecked = event.currentTarget.checked;
+
+        this.questionSelected.userAnswers[optionChanged] = isChecked;
     }
 }
