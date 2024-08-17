@@ -25,10 +25,16 @@ export default class MockExam extends LightningElement {
         return this._examQuestions;
     }
 
+    renderedCallback() {
+        if (this.questionSelected) {
+            this.manageOptionsDisabledStatus();
+        }
+    }
+
     handleNumberClick(event) {
         const questionIndex = Number(event.currentTarget.textContent);
-
         this.questionSelected = this.examQuestions.find((q) => q.index === questionIndex);
+
         console.log('Question selected' + JSON.stringify(this.questionSelected));
     }
 
@@ -37,5 +43,43 @@ export default class MockExam extends LightningElement {
         const isChecked = event.currentTarget.checked;
 
         this.questionSelected.userAnswers[optionChanged] = isChecked;
+    }
+
+    manageOptionsDisabledStatus() {
+        const numberOfCorrectAnswers = this.getQuestionCorrectAnswers().length;
+        const numberOfOptionsSelected = this.getUserSelectedOptions().length;
+
+        console.log('Correct answers = ' + numberOfCorrectAnswers + JSON.stringify(this.getQuestionCorrectAnswers()));
+        console.log('Selected answers = ' + numberOfOptionsSelected + JSON.stringify(this.getUserSelectedOptions()));
+
+        if (numberOfCorrectAnswers === numberOfOptionsSelected) {
+            this.disableUncheckedOptions();
+        } else {
+            this.enableAllCheckboxes();
+        }
+    }
+
+    getUserSelectedOptions() {
+        return Object.entries(this.questionSelected.userAnswers)
+            .filter(([, checked]) => checked)
+            .map(([option]) => option);
+    }
+
+    // Example: "Option A;Option D" => ['Option_A', 'Option_D']
+    getQuestionCorrectAnswers() {
+        const answers = this.questionSelected.Correct_Answers.split(';');
+        return answers.map((str) => str.replace(' ', '_'));
+    }
+
+    enableAllCheckboxes() {
+        this.template.querySelectorAll('lightning-input').forEach((checkbox) => {
+            checkbox.disabled = false;
+        });
+    }
+
+    disableUncheckedOptions() {
+        this.template.querySelectorAll('lightning-input').forEach((checkbox) => {
+            checkbox.disabled = !checkbox.checked;
+        });
     }
 }
