@@ -9,12 +9,11 @@ export default class MockExam extends LightningElement {
 
     get examQuestions() {
         if (this.questions && !this.isInitialized) {
-            this.isInitialized = true;
-
             this._examQuestions = this.questions.map((question, index) => {
                 return {
                     index: index + 1,
                     userAnswers: { Option_A: false, Option_B: false, Option_C: false, Option_D: false, Option_E: false },
+                    isAnswered: false,
                     ...question
                 };
             });
@@ -25,16 +24,32 @@ export default class MockExam extends LightningElement {
         return this._examQuestions;
     }
 
+    get questionSelectedBox() {
+        if (this.questionSelected) {
+            return this.template.querySelector(`div[data-index="${this.questionSelected.index}"`);
+        }
+
+        return null;
+    }
+
     renderedCallback() {
         if (this.questionSelected) {
             this.updateCheckboxStates();
-            this.markBoxAsSelected();
+
+            if (!this.isInitialized) {
+                this.highlightSelectedBox();
+                this.isInitialized = true;
+            }
         }
     }
 
     handleNumberClick(event) {
+        this.removeBoxSelection();
+
         const questionIndex = Number(event.currentTarget.textContent);
         this.questionSelected = this.examQuestions.find((q) => q.index === questionIndex);
+
+        this.highlightSelectedBox();
 
         console.log('Question selected' + JSON.stringify(this.questionSelected));
     }
@@ -58,14 +73,12 @@ export default class MockExam extends LightningElement {
         return answers.map((str) => str.replace(' ', '_'));
     }
 
-    markBoxAsSelected() {
-        this.template.querySelectorAll('div.question-number').forEach((boxElement) => {
-            boxElement.classList.remove('selected');
+    highlightSelectedBox() {
+        this.questionSelectedBox.classList.add('selected');
+    }
 
-            if (Number(boxElement.textContent) === this.questionSelected.index) {
-                boxElement.classList.add('selected');
-            }
-        });
+    removeBoxSelection() {
+        this.questionSelectedBox.classList.remove('selected');
     }
 
     updateCheckboxStates() {
