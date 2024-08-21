@@ -3,3 +3,8 @@
     width: 35px;
     cursor: pointer;
 }
+
+.selected {
+    background-color: cornflowerblue;
+    color: white;
+}

@@ -27,7 +27,8 @@ export default class MockExam extends LightningElement {
 
     renderedCallback() {
         if (this.questionSelected) {
-            this.manageOptionsDisabledStatus();
+            this.updateCheckboxStates();
+            this.markBoxAsSelected();
         }
     }
 
@@ -45,7 +46,29 @@ export default class MockExam extends LightningElement {
         this.questionSelected.userAnswers[optionChanged] = isChecked;
     }
 
-    manageOptionsDisabledStatus() {
+    getUserSelectedOptions() {
+        return Object.entries(this.questionSelected.userAnswers)
+            .filter(([, checked]) => checked)
+            .map(([option]) => option);
+    }
+
+    // Example: "Option A;Option D" => ['Option_A', 'Option_D']
+    getQuestionCorrectAnswers() {
+        const answers = this.questionSelected.Correct_Answers.split(';');
+        return answers.map((str) => str.replace(' ', '_'));
+    }
+
+    markBoxAsSelected() {
+        this.template.querySelectorAll('div.question-number').forEach((boxElement) => {
+            boxElement.classList.remove('selected');
+
+            if (Number(boxElement.textContent) === this.questionSelected.index) {
+                boxElement.classList.add('selected');
+            }
+        });
+    }
+
+    updateCheckboxStates() {
         const numberOfCorrectAnswers = this.getQuestionCorrectAnswers().length;
         const numberOfOptionsSelected = this.getUserSelectedOptions().length;
 
@@ -57,18 +80,6 @@ export default class MockExam extends LightningElement {
         } else {
             this.enableAllCheckboxes();
         }
-    }
-
-    getUserSelectedOptions() {
-        return Object.entries(this.questionSelected.userAnswers)
-            .filter(([, checked]) => checked)
-            .map(([option]) => option);
-    }
-
-    // Example: "Option A;Option D" => ['Option_A', 'Option_D']
-    getQuestionCorrectAnswers() {
-        const answers = this.questionSelected.Correct_Answers.split(';');
-        return answers.map((str) => str.replace(' ', '_'));
     }
 
     enableAllCheckboxes() {
