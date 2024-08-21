@@ -4,6 +4,10 @@
     cursor: pointer;
 }
 
+.answered {
+    background-color: rgb(127, 170, 243);
+}
+
 .selected {
     background-color: cornflowerblue;
     color: white;

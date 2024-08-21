@@ -37,19 +37,19 @@ export default class MockExam extends LightningElement {
             this.updateCheckboxStates();
 
             if (!this.isInitialized) {
-                this.highlightSelectedBox();
+                this.toggleBoxSelection(true);
                 this.isInitialized = true;
             }
         }
     }
 
     handleNumberClick(event) {
-        this.removeBoxSelection();
+        this.toggleBoxSelection(false);
 
         const questionIndex = Number(event.currentTarget.textContent);
         this.questionSelected = this.examQuestions.find((q) => q.index === questionIndex);
 
-        this.highlightSelectedBox();
+        this.toggleBoxSelection(true);
 
         console.log('Question selected' + JSON.stringify(this.questionSelected));
     }
@@ -73,12 +73,14 @@ export default class MockExam extends LightningElement {
         return answers.map((str) => str.replace(' ', '_'));
     }
 
-    highlightSelectedBox() {
-        this.questionSelectedBox.classList.add('selected');
-    }
+    toggleBoxSelection(isSelected) {
+        const classList = this.questionSelectedBox.classList;
 
-    removeBoxSelection() {
-        this.questionSelectedBox.classList.remove('selected');
+        if (isSelected) {
+            classList.add('selected');
+        } else {
+            classList.remove('selected');
+        }
     }
 
     updateCheckboxStates() {
@@ -90,8 +92,10 @@ export default class MockExam extends LightningElement {
 
         if (numberOfCorrectAnswers === numberOfOptionsSelected) {
             this.disableUncheckedOptions();
+            this.questionSelectedBox.classList.add('answered');
         } else {
             this.enableAllCheckboxes();
+            this.questionSelectedBox.classList.remove('answered');
         }
     }
 
