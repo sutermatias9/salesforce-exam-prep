@@ -1,11 +1,14 @@
 import { LightningElement, api, track } from 'lwc';
 
 export default class MockExam extends LightningElement {
+    @api exam;
     @api questions;
     @track questionSelected;
 
-    _examQuestions;
+    showExam = true;
     isInitialized = false;
+    _examQuestions;
+    score;
 
     get examQuestions() {
         if (this.questions && !this.isInitialized) {
@@ -32,8 +35,12 @@ export default class MockExam extends LightningElement {
         return null;
     }
 
+    get examName() {
+        return this.exam.name + ' Exam';
+    }
+
     renderedCallback() {
-        if (this.questionSelected) {
+        if (this.questionSelected && this.showExam) {
             this.updateCheckboxStates();
 
             if (!this.isInitialized) {
@@ -61,15 +68,37 @@ export default class MockExam extends LightningElement {
         this.questionSelected.userAnswers[optionChanged] = isChecked;
     }
 
-    getUserSelectedOptions() {
-        return Object.entries(this.questionSelected.userAnswers)
+    handleFinishClick() {
+        const numberOfQuestions = this.examQuestions.length;
+        const numberOfCorrectAnswers = this.examQuestions.reduce((accumulator, question) => {
+            if (this.isCorrect(question)) {
+                return (accumulator += 1);
+            }
+
+            return accumulator;
+        }, 0);
+
+        this.score = (numberOfCorrectAnswers / numberOfQuestions) * 100;
+        this.result = this.score >= this.exam.Passing_Score ? 'PASS' : 'FAIL';
+        this.showExam = false;
+    }
+
+    isCorrect(question) {
+        const userAnswers = this.getUserSelectedOptions(question);
+        const correctAnswers = this.getQuestionCorrectAnswers(question);
+
+        return userAnswers.length === correctAnswers.length && userAnswers.every((option) => correctAnswers.includes(option));
+    }
+
+    getUserSelectedOptions(question) {
+        return Object.entries(question.userAnswers)
             .filter(([, checked]) => checked)
             .map(([option]) => option);
     }
 
     // Example: "Option A;Option D" => ['Option_A', 'Option_D']
-    getQuestionCorrectAnswers() {
-        const answers = this.questionSelected.Correct_Answers.split(';');
+    getQuestionCorrectAnswers(question) {
+        const answers = question.Correct_Answers.split(';');
         return answers.map((str) => str.replace(' ', '_'));
     }
 
@@ -84,11 +113,11 @@ export default class MockExam extends LightningElement {
     }
 
     updateCheckboxStates() {
-        const numberOfCorrectAnswers = this.getQuestionCorrectAnswers().length;
-        const numberOfOptionsSelected = this.getUserSelectedOptions().length;
+        const numberOfCorrectAnswers = this.getQuestionCorrectAnswers(this.questionSelected).length;
+        const numberOfOptionsSelected = this.getUserSelectedOptions(this.questionSelected).length;
 
-        console.log('Correct answers = ' + numberOfCorrectAnswers + JSON.stringify(this.getQuestionCorrectAnswers()));
-        console.log('Selected answers = ' + numberOfOptionsSelected + JSON.stringify(this.getUserSelectedOptions()));
+        // console.log('Correct answers = ' + numberOfCorrectAnswers + JSON.stringify(this.getQuestionCorrectAnswers()));
+        // console.log('Selected answers = ' + numberOfOptionsSelected + JSON.stringify(this.getUserSelectedOptions()));
 
         if (numberOfCorrectAnswers === numberOfOptionsSelected) {
             this.disableUncheckedOptions();

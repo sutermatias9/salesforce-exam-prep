@@ -1,40 +1,49 @@
 <template>
-    <lightning-card title="Exam">
-        <div class="slds-var-p-around_medium">
-            <template lwc:if={examQuestions}>
-                <div class="slds-grid slds-wrap slds-gutters_xxx-small">
-                    <template iterator:question={examQuestions}>
-                        <div key={question.value.Question_text} class="slds-col">
-                            <div class=" slds-box slds-align_absolute-center slds-var-m-bottom_x-small question-number"
-                                onclick={handleNumberClick}>
-                                {question.value.index}
+    <template lwc:if={showExam}>
+        <lightning-card title={examName}>
+            <div class="slds-var-p-around_medium">
+                <template lwc:if={examQuestions}>
+                    <div class="slds-grid slds-wrap slds-gutters_xxx-small">
+                        <template iterator:question={examQuestions}>
+                            <div key={question.value.Question_text} class="slds-col">
+                                <div class=" slds-box slds-align_absolute-center slds-var-m-bottom_x-small question-number"
+                                    data-index={question.value.index} onclick={handleNumberClick}>
+                                    {question.value.index}
+                                </div>
                             </div>
-                        </div>
-                    </template>
-                </div>
-                <div>
-                    <p>{questionSelected.Question_text}</p>
-                    <div class="slds-var-m-top_medium">
-                        <lightning-input type="checkbox" label={questionSelected.Option_A} value='Option_A'
-                            onchange={handleOptionChange} checked={questionSelected.userAnswers.Option_A}>
-                        </lightning-input>
-                        <lightning-input type="checkbox" label={questionSelected.Option_B} value='Option_B'
-                            onchange={handleOptionChange} checked={questionSelected.userAnswers.Option_B}>
-                        </lightning-input>
-                        <lightning-input type="checkbox" label={questionSelected.Option_C} value='Option_C'
-                            onchange={handleOptionChange} checked={questionSelected.userAnswers.Option_C}>
-                        </lightning-input>
-                        <lightning-input type="checkbox" label={questionSelected.Option_D} value='Option_D'
-                            onchange={handleOptionChange} checked={questionSelected.userAnswers.Option_D}>
-                        </lightning-input>
-                        <template lwc:if={questionSelected.Option_E}>
-                            <lightning-input type="checkbox" label={questionSelected.Option_E} value='Option_E'
-                                onchange={handleOptionChange} checked={questionSelected.userAnswers.Option_E}>
-                            </lightning-input>
                         </template>
                     </div>
-                </div>
-            </template>
-        </div>
-    </lightning-card>
+                    <div>
+                        <p>{questionSelected.Question_text}</p>
+                        <div class="slds-var-m-top_medium">
+                            <lightning-input type="checkbox" label={questionSelected.Option_A} value='Option_A'
+                                onchange={handleOptionChange} checked={questionSelected.userAnswers.Option_A}>
+                            </lightning-input>
+                            <lightning-input type="checkbox" label={questionSelected.Option_B} value='Option_B'
+                                onchange={handleOptionChange} checked={questionSelected.userAnswers.Option_B}>
+                            </lightning-input>
+                            <lightning-input type="checkbox" label={questionSelected.Option_C} value='Option_C'
+                                onchange={handleOptionChange} checked={questionSelected.userAnswers.Option_C}>
+                            </lightning-input>
+                            <lightning-input type="checkbox" label={questionSelected.Option_D} value='Option_D'
+                                onchange={handleOptionChange} checked={questionSelected.userAnswers.Option_D}>
+                            </lightning-input>
+                            <template lwc:if={questionSelected.Option_E}>
+                                <lightning-input type="checkbox" label={questionSelected.Option_E} value='Option_E'
+                                    onchange={handleOptionChange} checked={questionSelected.userAnswers.Option_E}>
+                                </lightning-input>
+                            </template>
+                        </div>
+                    </div>
+                    <div><lightning-button label="Finish exam" onclick={handleFinishClick}></lightning-button></div>
+                </template>
+            </div>
+        </lightning-card>
+    </template>
+    <template lwc:else>
+        <lightning-card title='Exam results'>
+            Exam: {exam.name}
+            RESULT: {result} ({score}%)
+        </lightning-card>
+    </template>
 </template>
