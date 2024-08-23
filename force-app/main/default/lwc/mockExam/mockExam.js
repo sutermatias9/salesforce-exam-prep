@@ -39,6 +39,10 @@ export default class MockExam extends LightningElement {
         return this.exam.name + ' Exam';
     }
 
+    get isNotLastQuestion() {
+        return this.questionSelected.index !== this.examQuestions.length;
+    }
+
     renderedCallback() {
         if (this.questionSelected && this.showExam) {
             this.updateCheckboxStates();
@@ -51,12 +55,8 @@ export default class MockExam extends LightningElement {
     }
 
     handleNumberClick(event) {
-        this.toggleBoxSelection(false);
-
         const questionIndex = Number(event.currentTarget.textContent);
-        this.questionSelected = this.examQuestions.find((q) => q.index === questionIndex);
-
-        this.toggleBoxSelection(true);
+        this.selectQuestionByIndex(questionIndex);
 
         console.log('Question selected' + JSON.stringify(this.questionSelected));
     }
@@ -66,6 +66,12 @@ export default class MockExam extends LightningElement {
         const isChecked = event.currentTarget.checked;
 
         this.questionSelected.userAnswers[optionChanged] = isChecked;
+    }
+
+    handleNextClick() {
+        if (this.isNotLastQuestion) {
+            this.selectQuestionByIndex(this.questionSelected.index + 1);
+        }
     }
 
     handleFinishClick() {
@@ -100,6 +106,12 @@ export default class MockExam extends LightningElement {
     getQuestionCorrectAnswers(question) {
         const answers = question.Correct_Answers.split(';');
         return answers.map((str) => str.replace(' ', '_'));
+    }
+
+    selectQuestionByIndex(index) {
+        this.toggleBoxSelection(false);
+        this.questionSelected = this.examQuestions.find((q) => q.index === index);
+        this.toggleBoxSelection(true);
     }
 
     toggleBoxSelection(isSelected) {
