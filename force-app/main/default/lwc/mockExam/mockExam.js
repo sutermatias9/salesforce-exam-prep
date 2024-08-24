@@ -5,10 +5,12 @@ export default class MockExam extends LightningElement {
     @api questions;
     @track questionSelected;
 
-    showExam = true;
     isInitialized = false;
-    _examQuestions;
+    showExam = true;
     score;
+    isReview = false;
+
+    _examQuestions;
 
     get examQuestions() {
         if (this.questions && !this.isInitialized) {
@@ -44,13 +46,16 @@ export default class MockExam extends LightningElement {
     }
 
     renderedCallback() {
-        if (this.questionSelected && this.showExam) {
+        if (this.questionSelected && this.showExam && !this.isReview) {
             this.updateCheckboxStates();
 
             if (!this.isInitialized) {
                 this.toggleBoxSelection(true);
                 this.isInitialized = true;
             }
+        } else if (this.isReview) {
+            this.highlightBoxes();
+            this.enableAllCheckboxes(false);
         }
     }
 
@@ -87,6 +92,11 @@ export default class MockExam extends LightningElement {
         this.score = (numberOfCorrectAnswers / numberOfQuestions) * 100;
         this.result = this.score >= this.exam.Passing_Score ? 'PASS' : 'FAIL';
         this.showExam = false;
+    }
+
+    handleReviewClick() {
+        this.showExam = true;
+        this.isReview = true;
     }
 
     isCorrect(question) {
@@ -128,21 +138,31 @@ export default class MockExam extends LightningElement {
         const numberOfCorrectAnswers = this.getQuestionCorrectAnswers(this.questionSelected).length;
         const numberOfOptionsSelected = this.getUserSelectedOptions(this.questionSelected).length;
 
-        // console.log('Correct answers = ' + numberOfCorrectAnswers + JSON.stringify(this.getQuestionCorrectAnswers()));
-        // console.log('Selected answers = ' + numberOfOptionsSelected + JSON.stringify(this.getUserSelectedOptions()));
-
         if (numberOfCorrectAnswers === numberOfOptionsSelected) {
             this.disableUncheckedOptions();
             this.questionSelectedBox.classList.add('answered');
         } else {
-            this.enableAllCheckboxes();
+            this.enableAllCheckboxes(true);
             this.questionSelectedBox.classList.remove('answered');
         }
     }
 
-    enableAllCheckboxes() {
+    highlightBoxes() {
+        this.template.querySelectorAll('div.question-number').forEach((box) => {
+            const boxIndex = Number(box.textContent);
+            const question = this.examQuestions.find((q) => q.index === boxIndex);
+
+            if (this.isCorrect(question)) {
+                box.classList.add('correct-box');
+            } else {
+                box.classList.add('incorrect-box');
+            }
+        });
+    }
+
+    enableAllCheckboxes(isEnabled) {
         this.template.querySelectorAll('lightning-input').forEach((checkbox) => {
-            checkbox.disabled = false;
+            checkbox.disabled = !isEnabled;
         });
     }
 
