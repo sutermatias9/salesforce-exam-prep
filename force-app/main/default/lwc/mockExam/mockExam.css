@@ -11,4 +11,25 @@
 .selected {
     background-color: cornflowerblue;
     color: white;
+    font-weight: bold;
+    border-color: black;
+    border-width: 1px;
+}
+
+.correct-box {
+    background-color: rgb(14, 147, 14);
+    color: white;
+}
+
+.incorrect-box {
+    background-color: rgb(147, 13, 13);
+    color: white;
+}
+
+.selected.incorrect-box {
+    background-color: rgb(134, 3, 3);
+}
+
+.selected.correct-box {
+    background-color: rgb(8, 136, 8);
 }
