@@ -57,6 +57,7 @@ export default class MockExam extends LightningElement {
         if (this.questionSelected && this.showExam) {
             this.populateOptionLabels();
             this.populateCheckboxes();
+            this.toggleBoxSelection(true);
 
             if (this.isReview) {
                 this.clearAnswerHighlights();
@@ -114,6 +115,7 @@ export default class MockExam extends LightningElement {
     handleReviewClick() {
         this.showExam = true;
         this.isReview = true;
+        this.questionSelected = this.examQuestions[0];
     }
 
     isCorrect(question) {
@@ -138,7 +140,6 @@ export default class MockExam extends LightningElement {
     selectQuestionByIndex(index) {
         this.toggleBoxSelection(false);
         this.questionSelected = this.examQuestions.find((q) => q.index === index);
-        this.toggleBoxSelection(true);
     }
 
     toggleBoxSelection(isSelected) {
