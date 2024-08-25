@@ -59,7 +59,9 @@ export default class MockExam extends LightningElement {
             this.populateCheckboxes();
 
             if (this.isReview) {
-                this.highlightBoxes();
+                this.clearAnswerHighlights();
+                this.highlightQuestionBoxes();
+                this.highlightAnswers();
                 this.enableAllCheckboxes(false);
             } else {
                 this.updateCheckboxStates();
@@ -176,7 +178,7 @@ export default class MockExam extends LightningElement {
         });
     }
 
-    highlightBoxes() {
+    highlightQuestionBoxes() {
         this.template.querySelectorAll('div.question-number').forEach((box) => {
             const boxIndex = Number(box.textContent);
             const question = this.examQuestions.find((q) => q.index === boxIndex);
@@ -186,6 +188,28 @@ export default class MockExam extends LightningElement {
             } else {
                 box.classList.add('incorrect-box');
             }
+        });
+    }
+
+    highlightAnswers() {
+        const answers = this.getQuestionCorrectAnswers(this.questionSelected);
+
+        this.template.querySelectorAll('label').forEach((label) => {
+            const option = label.dataset.option;
+            const checkbox = label.previousElementSibling;
+
+            if (checkbox.checked && !answers.includes(option)) {
+                label.classList.add('incorrect-label');
+            } else if (answers.includes(option)) {
+                label.classList.add('correct-label');
+            }
+        });
+    }
+
+    clearAnswerHighlights() {
+        this.template.querySelectorAll('label').forEach((label) => {
+            label.classList.remove('incorrect-label');
+            label.classList.remove('correct-label');
         });
     }
 

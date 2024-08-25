@@ -16,6 +16,16 @@
     border-width: 1px;
 }
 
+.incorrect-label {
+    color: rgb(126, 9, 9);
+}
+
+.correct-label {
+    color: rgb(14, 147, 14);
+    font-weight: bold;
+    font-style: italic;
+}
+
 .correct-box {
     background-color: rgb(14, 147, 14);
     color: white;
