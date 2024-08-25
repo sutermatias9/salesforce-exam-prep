@@ -8,7 +8,7 @@
             </template>
             <template lwc:else>
                 <template lwc:if={showExam}>
-                    <c-mock-exam exam={examSelected} questions={questions}></c-mock-exam>
+                    <c-mock-exam exam={examSelected} questions={questions} ongotomenu={handleGoToMenu}></c-mock-exam>
                 </template>
                 <template lwc:else>
                     <c-exam-details exam={examSelected} onstart={handleStartExam} onback={handleBack}></c-exam-details>

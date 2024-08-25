@@ -107,7 +107,7 @@ export default class MockExam extends LightningElement {
             return accumulator;
         }, 0);
 
-        this.score = (numberOfCorrectAnswers / numberOfQuestions) * 100;
+        this.score = ((numberOfCorrectAnswers / numberOfQuestions) * 100).toFixed(2);
         this.result = this.score >= this.exam.Passing_Score ? 'PASS' : 'FAIL';
         this.showExam = false;
     }
@@ -116,6 +116,10 @@ export default class MockExam extends LightningElement {
         this.showExam = true;
         this.isReview = true;
         this.questionSelected = this.examQuestions[0];
+    }
+
+    handleGoToMenuClick() {
+        this.dispatchEvent(new CustomEvent('gotomenu'));
     }
 
     isCorrect(question) {

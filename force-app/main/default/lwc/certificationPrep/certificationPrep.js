@@ -27,6 +27,12 @@ export default class CertificationPrep extends LightningElement {
         this.examSelected = this.exams.find((exam) => exam.name === event.detail);
     }
 
+    handleGoToMenu() {
+        this.showExam = false;
+        this.examSelected = null;
+        this.questions = null;
+    }
+
     handleBack() {
         this.examSelected = null;
     }
