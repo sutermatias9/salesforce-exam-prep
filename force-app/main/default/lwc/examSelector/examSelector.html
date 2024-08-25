@@ -1,9 +1,11 @@
 <template>
-    <template for:each={exams} for:item="exam">
-        <div key={exam.name}>
-            <div class="slds-box" data-exam={exam.name} onclick={handleExamClick}>
-                <a>{exam.name}</a>
+    <div class="slds-var-p-horizontal_large">
+        <template for:each={exams} for:item="exam">
+            <div key={exam.name} class="slds-var-m-bottom_x-small">
+                <div class="slds-box" data-exam={exam.name} onclick={handleExamClick}>
+                    <a>{exam.name}</a>
+                </div>
             </div>
-        </div>
-    </template>
+        </template>
+    </div>
 </template>

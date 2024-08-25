@@ -1,0 +1,10 @@
+.slds-box:hover {
+    cursor: pointer;
+    text-decoration: underline var(--slds-g-color-neutral-base-10) 1px;
+}
+
+a {
+    font-size: var(--slds-g-font-scale-2);
+    color: var(--slds-g-color-neutral-base-10);
+    text-decoration: none;
+}
