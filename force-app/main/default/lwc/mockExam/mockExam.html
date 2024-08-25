@@ -16,22 +16,11 @@
                     <div>
                         <p>{questionSelected.Question_text}</p>
                         <div class="slds-var-m-top_medium">
-                            <lightning-input type="checkbox" label={questionSelected.Option_A} value='Option_A'
-                                onchange={handleOptionChange} checked={questionSelected.userAnswers.Option_A}>
-                            </lightning-input>
-                            <lightning-input type="checkbox" label={questionSelected.Option_B} value='Option_B'
-                                onchange={handleOptionChange} checked={questionSelected.userAnswers.Option_B}>
-                            </lightning-input>
-                            <lightning-input type="checkbox" label={questionSelected.Option_C} value='Option_C'
-                                onchange={handleOptionChange} checked={questionSelected.userAnswers.Option_C}>
-                            </lightning-input>
-                            <lightning-input type="checkbox" label={questionSelected.Option_D} value='Option_D'
-                                onchange={handleOptionChange} checked={questionSelected.userAnswers.Option_D}>
-                            </lightning-input>
-                            <template lwc:if={questionSelected.Option_E}>
-                                <lightning-input type="checkbox" label={questionSelected.Option_E} value='Option_E'
-                                    onchange={handleOptionChange} checked={questionSelected.userAnswers.Option_E}>
-                                </lightning-input>
+                            <template for:each={optionKeys} for:item="option">
+                                <div key={option}>
+                                    <input type="checkbox" id={option} value={option} onchange={handleOptionChange}>
+                                    <label for={option} data-option={option}></label>
+                                </div>
                             </template>
                         </div>
                     </div>

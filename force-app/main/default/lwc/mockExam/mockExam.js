@@ -12,6 +12,10 @@ export default class MockExam extends LightningElement {
 
     _examQuestions;
 
+    get examName() {
+        return this.exam.name + ' Exam';
+    }
+
     get examQuestions() {
         if (this.questions && !this.isInitialized) {
             this._examQuestions = this.questions.map((question, index) => {
@@ -37,8 +41,12 @@ export default class MockExam extends LightningElement {
         return null;
     }
 
-    get examName() {
-        return this.exam.name + ' Exam';
+    get optionKeys() {
+        if (this.questionSelected) {
+            return Object.keys(this.questionSelected).filter((key) => key.startsWith('Option_'));
+        }
+
+        return null;
     }
 
     get isNotLastQuestion() {
@@ -46,16 +54,21 @@ export default class MockExam extends LightningElement {
     }
 
     renderedCallback() {
-        if (this.questionSelected && this.showExam && !this.isReview) {
-            this.updateCheckboxStates();
+        if (this.questionSelected && this.showExam) {
+            this.populateOptionLabels();
+            this.populateCheckboxes();
 
-            if (!this.isInitialized) {
-                this.toggleBoxSelection(true);
-                this.isInitialized = true;
+            if (this.isReview) {
+                this.highlightBoxes();
+                this.enableAllCheckboxes(false);
+            } else {
+                this.updateCheckboxStates();
+
+                if (!this.isInitialized) {
+                    this.toggleBoxSelection(true);
+                    this.isInitialized = true;
+                }
             }
-        } else if (this.isReview) {
-            this.highlightBoxes();
-            this.enableAllCheckboxes(false);
         }
     }
 
@@ -69,8 +82,10 @@ export default class MockExam extends LightningElement {
     handleOptionChange(event) {
         const optionChanged = event.currentTarget.value;
         const isChecked = event.currentTarget.checked;
+        const q = { ...this.questionSelected };
 
-        this.questionSelected.userAnswers[optionChanged] = isChecked;
+        q.userAnswers[optionChanged] = isChecked;
+        this.questionSelected = q;
     }
 
     handleNextClick() {
@@ -147,6 +162,20 @@ export default class MockExam extends LightningElement {
         }
     }
 
+    populateOptionLabels() {
+        this.template.querySelectorAll('label').forEach((label) => {
+            const option = label.dataset.option;
+            label.textContent = '  ' + this.questionSelected[option];
+        });
+    }
+
+    populateCheckboxes() {
+        this.getCheckboxes().forEach((checkbox) => {
+            const option = checkbox.value;
+            checkbox.checked = this.questionSelected.userAnswers[option];
+        });
+    }
+
     highlightBoxes() {
         this.template.querySelectorAll('div.question-number').forEach((box) => {
             const boxIndex = Number(box.textContent);
@@ -161,14 +190,18 @@ export default class MockExam extends LightningElement {
     }
 
     enableAllCheckboxes(isEnabled) {
-        this.template.querySelectorAll('lightning-input').forEach((checkbox) => {
+        this.getCheckboxes().forEach((checkbox) => {
             checkbox.disabled = !isEnabled;
         });
     }
 
     disableUncheckedOptions() {
-        this.template.querySelectorAll('lightning-input').forEach((checkbox) => {
+        this.getCheckboxes().forEach((checkbox) => {
             checkbox.disabled = !checkbox.checked;
         });
+    }
+
+    getCheckboxes() {
+        return this.template.querySelectorAll('input');
     }
 }
