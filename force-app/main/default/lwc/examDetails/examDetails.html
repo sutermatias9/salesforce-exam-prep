@@ -1,10 +1,17 @@
 <template>
-    <lightning-card title="Exam details">
-        <div>{exam.name}</div>
-        <div>Content: {exam.Number_of_Questions} multiple-choice/multiple-select questions</div>
-        <div>Time alloted to complete the exam: {exam.Time_to_Complete_minutes}</div>
-        <div>Passing score: {exam.Passing_Score}%</div>
-        <lightning-button label="Back" onclick={handleBackClick}></lightning-button>
-        <lightning-button variant="brand" label="Start exam" onclick={handleStartClick}></lightning-button>
+    <lightning-card title="Exam details" icon-name="standard:survey">
+        <div
+            class="slds-var-p-around_medium slds-var-m-top_large slds-grid slds-grid_vertical slds-align_absolute-center">
+            <div class="slds-col slds-text-title_caps slds-var-m-bottom_x-small exam">{exam.name}</div>
+            <div class="slds-col">Content: {exam.Number_of_Questions} multiple-choice/multiple-select questions</div>
+            <div class="slds-col">Time alloted to complete the exam: {exam.Time_to_Complete_minutes}
+            </div>
+            <div class="slds-col">Passing score: {exam.Passing_Score}%</div>
+            <div class="slds-col slds-var-m-top_xx-large">
+                <lightning-button label="Back" onclick={handleBackClick}></lightning-button>
+                <lightning-button variant="brand" label="Start exam" onclick={handleStartClick}
+                    class="slds-var-m-left_small"></lightning-button>
+            </div>
+        </div>
     </lightning-card>
 </template>
