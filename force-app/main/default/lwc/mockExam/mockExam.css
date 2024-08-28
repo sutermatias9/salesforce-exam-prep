@@ -4,6 +4,11 @@
     cursor: pointer;
 }
 
+.buttons {
+    bottom: 0;
+    right: var(--lwc-spacingMedium);
+}
+
 .answered {
     background-color: rgb(127, 170, 243);
 }
