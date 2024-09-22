@@ -72,6 +72,10 @@ export default class MockExam extends LightningElement {
                     this.isInitialized = true;
                 }
             }
+        } else if (!this.showExam) {
+            const resultElement = this.template.querySelector('span');
+            resultElement.classList.toggle('pass', this.result === 'PASS');
+            resultElement.classList.toggle('fail', this.result === 'FAIL');
         }
     }
 
@@ -107,9 +111,9 @@ export default class MockExam extends LightningElement {
             return accumulator;
         }, 0);
 
+        this.showExam = false;
         this.score = ((numberOfCorrectAnswers / numberOfQuestions) * 100).toFixed(2);
         this.result = this.score >= this.exam.Passing_Score ? 'PASS' : 'FAIL';
-        this.showExam = false;
     }
 
     handleReviewClick() {

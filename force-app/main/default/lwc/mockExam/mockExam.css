@@ -48,3 +48,21 @@
 .selected.correct-box {
     background-color: rgb(8, 136, 8);
 }
+
+.exam {
+    font-size: var(--slds-g-font-scale-2);
+    font-weight: var(--slds-g-font-weight-5);
+}
+
+.pass,
+.fail {
+    font-weight: bold;
+}
+
+.pass {
+    color: rgb(8, 136, 8);
+}
+
+.fail {
+    color: rgb(134, 3, 3);
+}
