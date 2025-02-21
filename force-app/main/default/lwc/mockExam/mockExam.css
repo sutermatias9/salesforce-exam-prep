@@ -2,15 +2,20 @@
     height: 400px;
 }
 
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.buttons {
+    justify-self: flex-end;
+}
+
 .question-number {
     height: 35px;
     width: 35px;
     cursor: pointer;
-}
-
-.buttons {
-    bottom: 0;
-    right: var(--lwc-spacingMedium);
 }
 
 .answered {
