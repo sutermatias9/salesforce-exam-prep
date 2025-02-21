@@ -1,71 +1,79 @@
 <template>
-    <template lwc:if={showExam}>
-        <lightning-card title={examName}>
-            <div class="slds-is-relative">
-                <div class="slds-var-p-around_medium">
-                    <template lwc:if={examQuestions}>
-                        <!--Question Indexes-->
-                        <div class="slds-grid slds-wrap slds-gutters_xxx-small">
-                            <template iterator:question={examQuestions}>
-                                <div key={question.value.Question_text} class="slds-col">
-                                    <div class=" slds-box slds-align_absolute-center slds-var-m-bottom_x-small question-number"
-                                        data-index={question.value.index} onclick={handleNumberClick}>
-                                        {question.value.index}
-                                    </div>
-                                </div>
-                            </template>
-                        </div>
-
-                        <div class="slds-var-p-around_medium">
-                            <!-- Question -->
-                            <div>
-                                <p>{questionSelected.Question_text}</p>
-                            </div>
-
-                            <!-- Question Options -->
-                            <div class="slds-var-m-vertical_medium">
-                                <template for:each={optionKeys} for:item="option">
-                                    <div key={option}>
-                                        <input type="checkbox" id={option} value={option} onchange={handleOptionChange}>
-                                        <label for={option} data-option={option}></label>
-                                    </div>
-                                </template>
-                            </div>
-
-                            <!-- Buttons -->
-                            <div class="buttons slds-is-absolute">
-                                <template lwc:if={isNotLastQuestion}>
-                                    <lightning-button label="Next" onclick={handleNextClick}></lightning-button>
-                                </template>
-                                <div class="slds-var-m-left_small slds-show_inline-block">
-                                    <template lwc:if={isReview}>
-                                        <lightning-button label="Go to menu" variant="brand"
-                                            onclick={handleGoToMenuClick}></lightning-button>
-                                    </template>
-                                    <template lwc:else>
-                                        <lightning-button label="Finish exam" variant="brand"
-                                            onclick={handleFinishClick}></lightning-button>
-                                    </template>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-            </div>
-        </lightning-card>
+    <template lwc:if={isGettingQuestions}>
+        <div class="spinner-container">
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </div>
     </template>
-
-    <!--Exam Results-->
     <template lwc:else>
-        <lightning-card title='Exam results'>
-            <div class="slds-grid slds-grid_vertical slds-align_absolute-center">
-                <div class="slds-col slds-text-title_caps exam">{exam.name}</div>
-                <div class="slds-col slds-var-m-top_medium">RESULT: <span>{result}</span> ({score}%)</div>
-                <div class="slds-col slds-var-m-top_xx-large">
-                    <lightning-button label="Review exam" variant="brand"
-                        onclick={handleReviewClick}></lightning-button>
+        <template lwc:if={showExam}>
+            <lightning-card title={examName}>
+                <div class="slds-is-relative">
+                    <div class="slds-var-p-around_medium">
+                        <template lwc:if={examQuestions}>
+                            <!--Question Indexes-->
+                            <div class="slds-grid slds-wrap slds-gutters_xxx-small">
+                                <template iterator:question={examQuestions}>
+                                    <div key={question.value.Question_text} class="slds-col">
+                                        <div class=" slds-box slds-align_absolute-center slds-var-m-bottom_x-small question-number"
+                                            data-index={question.value.index} onclick={handleNumberClick}>
+                                            {question.value.index}
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <div class="slds-var-p-around_medium">
+                                <!-- Question -->
+                                <div>
+                                    <p>{questionSelected.Question_text}</p>
+                                </div>
+
+                                <!-- Question Options -->
+                                <div class="slds-var-m-vertical_medium">
+                                    <template for:each={optionKeys} for:item="option">
+                                        <div key={option}>
+                                            <input type="checkbox" id={option} value={option}
+                                                onchange={handleOptionChange}>
+                                            <label for={option} data-option={option}></label>
+                                        </div>
+                                    </template>
+                                </div>
+
+                                <!-- Buttons -->
+                                <div class="buttons slds-is-absolute">
+                                    <template lwc:if={isNotLastQuestion}>
+                                        <lightning-button label="Next" onclick={handleNextClick}></lightning-button>
+                                    </template>
+                                    <div class="slds-var-m-left_small slds-show_inline-block">
+                                        <template lwc:if={isReview}>
+                                            <lightning-button label="Go to menu" variant="brand"
+                                                onclick={handleGoToMenuClick}></lightning-button>
+                                        </template>
+                                        <template lwc:else>
+                                            <lightning-button label="Finish exam" variant="brand"
+                                                onclick={handleFinishClick}></lightning-button>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
                 </div>
-            </div>
-        </lightning-card>
+            </lightning-card>
+        </template>
+
+        <!--Exam Results-->
+        <template lwc:else>
+            <lightning-card title='Exam results'>
+                <div class="slds-grid slds-grid_vertical slds-align_absolute-center">
+                    <div class="slds-col slds-text-title_caps exam">{exam.name}</div>
+                    <div class="slds-col slds-var-m-top_medium">RESULT: <span>{result}</span> ({score}%)</div>
+                    <div class="slds-col slds-var-m-top_xx-large">
+                        <lightning-button label="Review exam" variant="brand"
+                            onclick={handleReviewClick}></lightning-button>
+                    </div>
+                </div>
+            </lightning-card>
+        </template>
     </template>
 </template>

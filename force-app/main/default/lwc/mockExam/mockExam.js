@@ -2,7 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 
 export default class MockExam extends LightningElement {
     @api exam;
-    @api questions;
+    @api questions = null;
     @track questionSelected;
 
     isInitialized = false;
@@ -11,6 +11,10 @@ export default class MockExam extends LightningElement {
     isReview = false;
 
     _examQuestions;
+
+    get isGettingQuestions() {
+        return !this.questions;
+    }
 
     get examName() {
         return this.exam.name + ' Exam';

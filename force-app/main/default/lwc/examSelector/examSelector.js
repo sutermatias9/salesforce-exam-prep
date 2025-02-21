@@ -1,7 +1,11 @@
 import { LightningElement, api } from 'lwc';
 
 export default class ExamSelector extends LightningElement {
-    @api exams;
+    @api exams = null;
+
+    get isGettingExams() {
+        return !this.exams;
+    }
 
     handleExamClick(event) {
         const examSelected = event.currentTarget.dataset.exam;

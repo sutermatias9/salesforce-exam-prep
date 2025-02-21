@@ -1,49 +1,57 @@
 <template>
-    <div class="slds-var-p-around_medium slds-grid slds-grid_vertical">
-        <template for:each={exams} for:item="exam">
-            <div key={exam.name} class="slds-col slds-var-m-bottom_medium">
-                <div class="slds-box slds-align_absolute-center tile" data-exam={exam.name} onclick={handleExamClick}>
+    <div class="container">
+        <template lwc:if={isGettingExams}>
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </template>
+        <template lwc:else>
+            <div class="slds-var-p-around_medium slds-grid slds-grid_vertical">
+                <template for:each={exams} for:item="exam">
+                    <div key={exam.name} class="slds-col slds-var-m-bottom_medium">
+                        <div class="slds-box slds-align_absolute-center tile" data-exam={exam.name}
+                            onclick={handleExamClick}>
+                            <div class="exam-info">
+                                <h2>{exam.name}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <div class="slds-box  slds-col slds-var-m-bottom_medium slds-align_absolute-center tile disabled">
                     <div class="exam-info">
-                        <h2>{exam.name}</h2>
+                        <h2>Platform Developer II</h2>
+                    </div>
+                </div>
+                <div class="slds-box  slds-col slds-var-m-bottom_medium slds-align_absolute-center tile disabled">
+                    <div class="exam-info">
+                        <h2>Administrator</h2>
+                    </div>
+                </div>
+                <div class="slds-box  slds-col slds-var-m-bottom_medium slds-align_absolute-center tile disabled">
+                    <div class="exam-info">
+                        <h2>Advanced Administrator</h2>
+                    </div>
+                </div>
+                <div class="slds-box  slds-col slds-var-m-bottom_medium slds-align_absolute-center tile disabled">
+                    <div class="exam-info">
+                        <h2>Platform App Builder</h2>
+                    </div>
+                </div>
+                <div class="slds-box  slds-col slds-var-m-bottom_medium slds-align_absolute-center tile disabled">
+                    <div class="exam-info">
+                        <h2>Javascript Developer I</h2>
+                    </div>
+                </div>
+                <div class="slds-box  slds-col slds-var-m-bottom_medium slds-align_absolute-center tile disabled">
+                    <div class="exam-info">
+                        <h2>Sales Cloud Consultant</h2>
+                    </div>
+                </div>
+                <div class="slds-box  slds-col slds-var-m-bottom_medium slds-align_absolute-center tile disabled">
+                    <div class="exam-info">
+                        <h2>Service Cloud Consultant</h2>
                     </div>
                 </div>
             </div>
         </template>
-
-        <div class="slds-box  slds-col slds-var-m-bottom_medium slds-align_absolute-center tile disabled">
-            <div class="exam-info">
-                <h2>Platform Developer II</h2>
-            </div>
-        </div>
-        <div class="slds-box  slds-col slds-var-m-bottom_medium slds-align_absolute-center tile disabled">
-            <div class="exam-info">
-                <h2>Administrator</h2>
-            </div>
-        </div>
-        <div class="slds-box  slds-col slds-var-m-bottom_medium slds-align_absolute-center tile disabled">
-            <div class="exam-info">
-                <h2>Advanced Administrator</h2>
-            </div>
-        </div>
-        <div class="slds-box  slds-col slds-var-m-bottom_medium slds-align_absolute-center tile disabled">
-            <div class="exam-info">
-                <h2>Platform App Builder</h2>
-            </div>
-        </div>
-        <div class="slds-box  slds-col slds-var-m-bottom_medium slds-align_absolute-center tile disabled">
-            <div class="exam-info">
-                <h2>Javascript Developer I</h2>
-            </div>
-        </div>
-        <div class="slds-box  slds-col slds-var-m-bottom_medium slds-align_absolute-center tile disabled">
-            <div class="exam-info">
-                <h2>Sales Cloud Consultant</h2>
-            </div>
-        </div>
-        <div class="slds-box  slds-col slds-var-m-bottom_medium slds-align_absolute-center tile disabled">
-            <div class="exam-info">
-                <h2>Service Cloud Consultant</h2>
-            </div>
-        </div>
     </div>
 </template>
