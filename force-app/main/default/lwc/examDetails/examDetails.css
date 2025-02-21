@@ -1,4 +1,15 @@
-.exam {
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 300px;
+}
+
+.exam__name {
     font-size: var(--slds-g-font-scale-2);
     font-weight: var(--slds-g-font-weight-5);
+}
+
+.exam__details {
+    text-align: center;
 }

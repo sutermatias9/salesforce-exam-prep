@@ -1,13 +1,20 @@
 <template>
     <lightning-card title="Exam details" icon-name="standard:survey">
-        <div
-            class="slds-var-p-around_medium slds-var-m-top_large slds-grid slds-grid_vertical slds-align_absolute-center">
-            <div class="slds-col slds-text-title_caps slds-var-m-bottom_x-small exam">{exam.name}</div>
-            <div class="slds-col">Content: {exam.Number_of_Questions} multiple-choice/multiple-select questions</div>
-            <div class="slds-col">Time alloted to complete the exam: {exam.Time_to_Complete_minutes}
+        <div class="slds-var-p-around_medium slds-var-m-top_large slds-align_absolute-center container">
+
+            <div class="exam__details">
+                <div class="slds-text-title_caps slds-var-m-bottom_large exam__name">
+                    {exam.name}
+                </div>
+
+                <div>
+                    <p>Content: {exam.Number_of_Questions} multiple-choice/multiple-select questions</p>
+                    <p>Time alloted to complete the exam: {exam.Time_to_Complete_minutes}</p>
+                    <p>Passing score: {exam.Passing_Score}%</p>
+                </div>
             </div>
-            <div class="slds-col">Passing score: {exam.Passing_Score}%</div>
-            <div class="slds-col slds-var-m-top_xx-large">
+
+            <div class="footer slds-var-m-top_xx-large">
                 <lightning-button label="Back" onclick={handleBackClick}></lightning-button>
                 <lightning-button variant="brand" label="Start exam" onclick={handleStartClick}
                     class="slds-var-m-left_small"></lightning-button>
